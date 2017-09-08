@@ -18,13 +18,8 @@ import java.util.ArrayList;
 
 public class WordAdapter extends ArrayAdapter {
 
-    private final Context context;
-    private final ArrayList<Word> words;
-
-    public WordAdapter(Context context, ArrayList objects) {
+   public WordAdapter(Context context, ArrayList objects) {
         super(context, -1, objects);
-        this.context = context;
-        this.words = objects;
     }
 
     @NonNull
