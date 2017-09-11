@@ -6,16 +6,19 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:minHeight="@dimen/list_item_height"
+    android:background="@color/category_numbers">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/item_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@drawable/number_one"
+        android:background="@color/tan_background"/>
 
     <LinearLayout
         android:orientation="vertical"
+        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="16dp">
@@ -24,13 +27,15 @@
             tools:text="Miwok"
             android:id="@+id/list_item_text_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            style="@style/TopTextStyle"/>
 
         <TextView
             tools:text="English"
             android:id="@+id/list_item_text_bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            style="@style/BottomTextStyle"/>
 
     </LinearLayout>
 
