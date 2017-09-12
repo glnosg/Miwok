@@ -67,4 +67,14 @@ public class Word {
     public boolean hasSound() {
         return mSoundSrcID != NO_IMAGE_PROVIDED;
     }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "mDefaultTranslation='" + mDefaultTranslation + '\'' +
+                ", mMiwokTranslation='" + mMiwokTranslation + '\'' +
+                ", mImgSrcID=" + mImgSrcID +
+                ", mSoundSrcID=" + mSoundSrcID +
+                '}';
+    }
 }
