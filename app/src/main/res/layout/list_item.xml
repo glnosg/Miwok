@@ -13,7 +13,7 @@
         android:id="@+id/item_image"
         android:layout_width="@dimen/list_item_height"
         android:layout_height="@dimen/list_item_height"
-        android:src="@drawable/number_one"/>
+        tools:src="@drawable/number_one"/>
 
     <LinearLayout
         android:id="@+id/text_container"
@@ -21,8 +21,8 @@
         android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/category_numbers"
-        android:paddingLeft="16dp">
+        android:paddingLeft="16dp"
+        tools:background="@color/category_numbers">
 
         <TextView
             tools:text="Miwok"

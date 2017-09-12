@@ -10,18 +10,38 @@ public class Word {
     private String mDefaultTranslation;
     private String mMiwokTranslation;
     private int mImgSrcID = NO_IMAGE_PROVIDED;
+    private int mSoundSrcID = NO_SOUND_PROVIDED;
 
     private static final int NO_IMAGE_PROVIDED = -1;
+    private static final int NO_SOUND_PROVIDED = -1;
 
     public Word(String defaultTranslation, String miwokTranslation) {
         mDefaultTranslation = defaultTranslation;
         mMiwokTranslation = miwokTranslation;
     }
 
-    public Word(String defaultTranslation, String miwokTranslation, int imgSrcID) {
+    /**
+     * @param defaultTranslation
+     * @param miwokTranslation
+     * @param imgOrSoundSrcID Source ID of image or sound (depending on flag value)
+     * @param flag - false when image, true when sound
+     */
+    public Word(String defaultTranslation, String miwokTranslation, int imgOrSoundSrcID, boolean flag) {
+        mDefaultTranslation = defaultTranslation;
+        mMiwokTranslation = miwokTranslation;
+
+        if(flag) {
+            mSoundSrcID = imgOrSoundSrcID;
+        } else {
+            mImgSrcID = imgOrSoundSrcID;
+        }
+    }
+
+    public Word(String defaultTranslation, String miwokTranslation, int imgSrcID, int soundSrcID) {
         mDefaultTranslation = defaultTranslation;
         mMiwokTranslation = miwokTranslation;
         mImgSrcID = imgSrcID;
+        mSoundSrcID = soundSrcID;
     }
 
     public String getDefaultTranslation() {
@@ -38,5 +58,13 @@ public class Word {
 
     public boolean hasImage() {
         return mImgSrcID != NO_IMAGE_PROVIDED;
+    }
+
+    public int getmSoundSrcID() {
+        return mSoundSrcID;
+    }
+
+    public boolean hasSound() {
+        return mSoundSrcID != NO_IMAGE_PROVIDED;
     }
 }
