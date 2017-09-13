@@ -14,8 +14,12 @@ import java.util.ArrayList;
 public class NumbersActivity extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
-
-    @Override
+    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mediaPlayer) {
+            releaseMediaPlayer();
+        }
+    };
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.words_list);
@@ -45,13 +49,25 @@ public class NumbersActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3) {
 
                 if (words.get(position).hasSound()) {
+
+                    releaseMediaPlayer();
                     Log.v("Numbers Activity", "Current word: " + words.get(position));
+
                     mMediaPlayer = MediaPlayer.create(NumbersActivity.this, words.get(position).getmSoundSrcID());
                     mMediaPlayer.start();
+                    mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+
                 } else {
                     Toast.makeText(NumbersActivity.this, "No sound provided", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void releaseMediaPlayer() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
     }
 }
