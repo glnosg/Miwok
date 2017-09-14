@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
-
 public class NumbersActivity extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
