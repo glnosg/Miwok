@@ -1,6 +1,7 @@
 package com.example.android.miwok;
 
 import android.app.Activity;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,24 @@ public class FamilyActivity extends AppCompatActivity {
             releaseMediaPlayer();
         }
     };
+
+    private AudioManager mAudioManager;
+
+    AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+
+                public void onAudioFocusChange(int focusChange) {
+                    if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
+                            focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                        mMediaPlayer.pause();
+                        mMediaPlayer.seekTo(0);
+                    } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                        mMediaPlayer.start();
+                    } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                        releaseMediaPlayer();
+                    }
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +76,24 @@ public class FamilyActivity extends AppCompatActivity {
                     releaseMediaPlayer();
                     Log.v("Numbers Activity", "Current word: " + words.get(position));
 
-                    mMediaPlayer = MediaPlayer.create(FamilyActivity.this, words.get(position).getmSoundSrcID());
-                    mMediaPlayer.start();
-                    mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+                    int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
+                            AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                    if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                        // We have audio focus now
+
+                        // Create and setup the {@link MediaPlayer} for the audio resource
+                        // associated with current word
+                        mMediaPlayer = MediaPlayer.create(FamilyActivity.this,
+                                words.get(position).getmSoundSrcID());
+
+                        // Start the audio file
+                        mMediaPlayer.start();
+
+                        //Setup a listener on the media player, so that we can stop and release the
+                        //media player once the sounds has finished playing
+                        mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+                    }
 
                 } else {
                     Toast.makeText(FamilyActivity.this, "No sound provided", Toast.LENGTH_SHORT).show();
@@ -79,6 +113,7 @@ public class FamilyActivity extends AppCompatActivity {
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
+            mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
         }
     }
 }
